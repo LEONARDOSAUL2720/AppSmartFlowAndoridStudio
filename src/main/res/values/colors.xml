@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta personalizada -->
+    <color name="colorPrimary">#2A6FB0</color>
+    <color name="colorSecondary">#57B894</color>
+    <color name="colorSecondaryVariant">#3D9577</color>
+    <color name="colorBackground">#F4F7F9</color>
+    <color name="textPrimary">#333333</color>
+    <color name="colorAccent">#00A9B7</color>
+
+    <!-- básicas -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <!-- Colores adicionales para calendario -->
+    <color name="calendar_selected">#00A9B7</color>
+    <color name="calendar_unselected">#CCCCCC</color>
+</resources>

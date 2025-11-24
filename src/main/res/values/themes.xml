@@ -1,0 +1,82 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SmartFlow" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Paleta SmartFlow -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">#1A5A8A</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">#3D9577</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/textPrimary</item>
+
+        <!-- Material 3 color tokens -->
+        <item name="colorPrimaryContainer">@color/colorPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorSecondaryContainer">@color/colorSecondary</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+        <item name="colorTertiaryContainer">@color/colorAccent</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
+    </style>
+
+    <style name="Theme.SmartFlow" parent="Base.Theme.SmartFlow" />
+
+    <!-- Tema para Splash Screen (pantalla completa sin action bar) -->
+    <style name="Theme.SmartFlow.NoActionBar" parent="Base.Theme.SmartFlow">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="ChipTurnoDisponible" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@android:color/white</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="chipStrokeColor">#FFFFFF</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">8dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="chipMinHeight">32dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+
+    <!-- Estilo para el CalendarView -->
+    <style name="CalendarTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:datePickerStyle">@style/DatePickerStyle</item>
+    </style>
+
+    <style name="DatePickerStyle" parent="android:Widget.Material.DatePicker">
+        <item name="android:headerBackground">@color/colorAccent</item>
+        <item name="android:calendarViewShown">true</item>
+    </style>
+
+    <!-- Estilo para los Chips de Horarios -->
+    <style name="ChipHorarioStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/selector_chip_horario</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorAccent</item>
+        <item name="chipCornerRadius">12dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="chipMinHeight">48dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <!-- Estilos para el Calendario -->
+    <style name="CalendarDateText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CalendarWeekText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecciona un médico"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/textPrimary"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Filtro de búsqueda -->
+    <EditText
+        android:id="@+id/et_buscar_medico"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Buscar médico por nombre..."
+        android:drawableStart="@drawable/bg_search_edittext"
+        android:drawablePadding="8dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="16dp"
+        android:inputType="textPersonName"
+        android:textColor="@color/textPrimary"
+        android:textColorHint="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_especialidad_seleccionada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Especialidad: Cardiología"
+        android:textSize="14sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="24dp" />
+
+    <!-- RecyclerView de médicos (vertical) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_medicos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <!-- Mensaje si no hay médicos -->
+    <TextView
+        android:id="@+id/tv_no_medicos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No hay médicos disponibles para esta especialidad"
+        android:textSize="16sp"
+        android:textColor="@color/textPrimary"
+        android:alpha="0.5"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="gone" />
+
+</LinearLayout>

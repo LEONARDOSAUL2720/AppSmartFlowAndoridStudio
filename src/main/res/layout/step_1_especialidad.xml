@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="35dp"
+    android:fillViewport="true"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona la especialidad"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/textPrimary"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elige el área médica que necesitas"
+            android:textSize="14sp"
+            android:textColor="@color/textPrimary"
+            android:alpha="0.7"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Indicador de carga -->
+        <ProgressBar
+            android:id="@+id/progress_especialidades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- RecyclerView de especialidades -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_especialidades"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2" />
+
+        <!-- Mensaje si no hay especialidades -->
+        <TextView
+            android:id="@+id/tv_no_especialidades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No hay especialidades disponibles"
+            android:textSize="16sp"
+            android:textColor="@color/textPrimary"
+            android:alpha="0.5"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</ScrollView>

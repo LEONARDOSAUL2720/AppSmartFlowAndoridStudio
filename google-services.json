@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1070987459179",
+    "project_id": "smartflow-12e99",
+    "storage_bucket": "smartflow-12e99.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070987459179:android:89427fa958ba061c87cf2e",
+        "android_client_info": {
+          "package_name": "com.example.smartflow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070987459179-cfupqtdurk21joi4k8ko3trqm8vff652.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smartflow",
+            "certificate_hash": "748500ee4e268f8ff4bfaa8436c94f3c9baef89b"
+          }
+        },
+        {
+          "client_id": "1070987459179-kt2t7gg2tohng4ns0od3hc1phhp02kmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv2zSsz3rpQcrsZY9P5PjVHK4jUixqI10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070987459179-gs492552r0rcm29fd0seee3tas6r4e0i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

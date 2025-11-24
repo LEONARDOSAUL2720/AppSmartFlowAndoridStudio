@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SmartFlow</string>
+    <!-- default_web_client_id obtenido de app/google-services.json -->
+    <string name="default_web_client_id">1070987459179-kt2t7gg2tohng4ns0od3hc1phhp02kmr.apps.googleusercontent.com</string>
+
+    <!-- Dialog de registro -->
+    <string name="dialog_complete_registro">Completa tu registro</string>
+    <string name="dialog_selecciona_tipo_cuenta">Selecciona tu tipo de cuenta:</string>
+</resources>
