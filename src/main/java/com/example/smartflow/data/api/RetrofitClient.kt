@@ -10,7 +10,7 @@ object RetrofitClient {
 
     // Cambiar según ambiente
     private const val BASE_URL_EMULATOR = "http://10.0.2.2:3000/api/mobile/"
-    private const val BASE_URL_DEVICE = "http://192.168.1.12:3000/api/mobile/"
+    private const val BASE_URL_DEVICE = "http://192.168.1.15:3000/api/mobile/"
     private const val BASE_URL_PRODUCTION = "https://smartflowmedic.onrender.com/api/mobile/"
 
 
@@ -45,4 +45,5 @@ object RetrofitClient {
     val especialidadesApiService: EspecialidadesApiService = retrofit.create(EspecialidadesApiService::class.java)
     val medicosApiService: MedicosApiService = retrofit.create(MedicosApiService::class.java)
     val medicosDisponibilidadApiService: MedicosDisponibilidadApiService = retrofit.create(MedicosDisponibilidadApiService::class.java)
+
 }

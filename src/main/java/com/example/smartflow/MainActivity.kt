@@ -228,9 +228,9 @@ class MainActivity : AppCompatActivity() {
                         val nombre = user.optString("nombre", "Usuario")
                         val foto = user.optString("foto", null)
 
-                        // Guardar token, nombre y foto
+                        // ✅ CORREGIDO: Guardar token y datos del usuario
                         saveToken(token)
-                        saveUserData(userId, nombre, foto)
+                        saveUserData(userId, nombre, foto, user)
                         navigateByRole(rol)
                     }
                 }
@@ -450,8 +450,9 @@ class MainActivity : AppCompatActivity() {
                         val nombre = user.optString("nombre", "Usuario")
                         val foto = user.optString("foto", null)
 
+                        // ✅ CORREGIDO: Guardar token y datos del usuario
                         saveToken(token)
-                        saveUserData(userId, nombre, foto)
+                        saveUserData(userId, nombre, foto, user)
                         navigateByRole(rol)
                     }
                 }
@@ -475,18 +476,22 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "Token guardado")
     }
 
-    // Guardar datos del usuario (ID, nombre y foto)
-    private fun saveUserData(userId: String, nombre: String, foto: String?) {
+    // Guardar datos del usuario (ID, nombre, email, teléfono, rol y foto)
+    private fun saveUserData(userId: String, nombre: String, foto: String?, user: JSONObject) {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         prefs.edit().apply {
             putString("user_id", userId)
             putString("user_nombre", nombre)
+            putString("user_email", user.optString("email", ""))
+            putString("user_telefono", user.optString("telefono", ""))
+            putString("user_rol", user.optString("rol", "paciente"))
+            putString("user_fecha_registro", user.optString("fechaRegistro", ""))
             if (foto != null) {
                 putString("user_foto", foto)
             }
             apply()
         }
-        Log.d("MainActivity", "Datos de usuario guardados: ID=$userId, nombre=$nombre")
+        Log.d("MainActivity", "Datos de usuario guardados: ID=$userId, nombre=$nombre, email=${user.optString("email")}")
     }
 
     // Navegar según rol del usuario

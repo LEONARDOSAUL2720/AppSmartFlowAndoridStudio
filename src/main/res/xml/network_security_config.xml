@@ -13,7 +13,7 @@
         <domain includeSubdomains="true">192.168.1.8</domain>
         <domain includeSubdomains="true">192.168.1.9</domain>
         <domain includeSubdomains="true">192.168.1.12</domain>
-        <domain includeSubdomains="true">192.168.90.136</domain>
+        <domain includeSubdomains="true">192.168.1.15</domain>
         <domain includeSubdomains="true">192.168.90.132</domain>
         <domain includeSubdomains="true">smartflowmedic.onrender.com</domain>
     </domain-config>

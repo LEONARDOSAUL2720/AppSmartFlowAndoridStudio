@@ -173,7 +173,8 @@ class PacienteHomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_perfil -> {
-                    Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, PacientePerfilActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false
