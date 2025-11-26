@@ -6,8 +6,8 @@
         android:title="Inicio" />
 
     <item
-        android:id="@+id/nav_search"
-        android:icon="@drawable/find_icon"
+        android:id="@+id/nav_recetas"
+        android:icon="@drawable/ic_historial"
         android:title="Buscar" />
 
     <item

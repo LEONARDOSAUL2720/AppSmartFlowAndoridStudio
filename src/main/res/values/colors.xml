@@ -16,4 +16,5 @@
     <color name="calendar_unselected">#CCCCCC</color>
 
     <color name="colorPrimaryLight">#E3F2FD</color>
+    <color name="primary_blue">#2A6FB0</color>
 </resources>

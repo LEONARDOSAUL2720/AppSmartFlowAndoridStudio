@@ -163,8 +163,9 @@ class PacienteHomeActivity : AppCompatActivity() {
                     Toast.makeText(this, "Inicio", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.nav_search -> {
-                    Toast.makeText(this, "Buscar médicos", Toast.LENGTH_SHORT).show()
+                R.id.nav_recetas -> {
+                    val intent = Intent(this, RecetasHistorialActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_citas -> {
