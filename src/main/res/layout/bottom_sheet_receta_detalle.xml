@@ -252,8 +252,141 @@
 
         </androidx.cardview.widget.CardView>
 
-        <!-- Botón Descargar PDF -->
-        <Button
+        <!-- ✅ NUEVO: Card de Calificación al Médico -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_calificacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⭐ Califica a tu médico"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Estrellas de calificación -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:id="@+id/star_1"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_star_empty"
+                        android:padding="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Estrella 1"
+                        app:tint="#D0D0D0" />
+
+                    <ImageView
+                        android:id="@+id/star_2"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_star_empty"
+                        android:padding="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Estrella 2"
+                        app:tint="#D0D0D0" />
+
+                    <ImageView
+                        android:id="@+id/star_3"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_star_empty"
+                        android:padding="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Estrella 3"
+                        app:tint="#D0D0D0" />
+
+                    <ImageView
+                        android:id="@+id/star_4"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_star_empty"
+                        android:padding="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Estrella 4"
+                        app:tint="#D0D0D0" />
+
+                    <ImageView
+                        android:id="@+id/star_5"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_star_empty"
+                        android:padding="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Estrella 5"
+                        app:tint="#D0D0D0" />
+
+                </LinearLayout>
+
+                <!-- Campo de comentario opcional -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deja un comentario (opcional)"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/et_comentario_calificacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    android:hint="Escribe tus comentarios aquí..."
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3"
+                    android:textSize="14sp" />
+
+                <!-- Botón para enviar calificación -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_enviar_calificacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Enviar Calificación"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_rounded_turquoise" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- ✅ NUEVO: Botón Descargar PDF -->
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_descargar_pdf"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -265,7 +398,7 @@
             android:layout_marginBottom="8dp" />
 
         <!-- Botón Ver QR (opcional) -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_ver_qr"
             android:layout_width="match_parent"
             android:layout_height="56dp"

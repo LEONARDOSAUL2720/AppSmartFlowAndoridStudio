@@ -46,5 +46,8 @@ object RetrofitClient {
     val medicosApiService: MedicosApiService = retrofit.create(MedicosApiService::class.java)
     val medicosDisponibilidadApiService: MedicosDisponibilidadApiService = retrofit.create(MedicosDisponibilidadApiService::class.java)
     val recetasApiService: RecetasApiService = retrofit.create(RecetasApiService::class.java)
+    val calificacionesApiService: CalificacionesApiService by lazy {
+        retrofit.create(CalificacionesApiService::class.java)
+    }
 
 }

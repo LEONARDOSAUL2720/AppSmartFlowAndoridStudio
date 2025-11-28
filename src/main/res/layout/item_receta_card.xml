@@ -158,8 +158,7 @@
 
         </LinearLayout>
 
-        <!-- Botón Ver Detalles -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_ver_detalles"
             android:layout_width="match_parent"
             android:layout_height="48dp"
