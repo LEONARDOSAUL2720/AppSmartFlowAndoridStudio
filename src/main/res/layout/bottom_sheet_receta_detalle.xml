@@ -277,6 +277,7 @@
                     android:textColor="#333333"
                     android:layout_marginBottom="12dp" />
 
+
                 <!-- Estrellas de calificación -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -294,8 +295,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Estrella 1"
-                        app:tint="#D0D0D0" />
+                        android:contentDescription="Estrella 1" />
 
                     <ImageView
                         android:id="@+id/star_2"
@@ -306,8 +306,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Estrella 2"
-                        app:tint="#D0D0D0" />
+                        android:contentDescription="Estrella 2" />
 
                     <ImageView
                         android:id="@+id/star_3"
@@ -318,8 +317,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Estrella 3"
-                        app:tint="#D0D0D0" />
+                        android:contentDescription="Estrella 3" />
 
                     <ImageView
                         android:id="@+id/star_4"
@@ -330,8 +328,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Estrella 4"
-                        app:tint="#D0D0D0" />
+                        android:contentDescription="Estrella 4" />
 
                     <ImageView
                         android:id="@+id/star_5"
@@ -342,8 +339,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Estrella 5"
-                        app:tint="#D0D0D0" />
+                        android:contentDescription="Estrella 5" />
 
                 </LinearLayout>
 

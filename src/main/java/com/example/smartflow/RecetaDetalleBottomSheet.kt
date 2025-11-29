@@ -190,9 +190,13 @@ class RecetaDetalleBottomSheet : BottomSheetDialogFragment() {
         // ⭐ Configurar clicks en estrellas
         estrellas.forEachIndexed { index, estrella ->
             estrella.setOnClickListener {
+                Log.d("RecetaDetalle", "🖱️ Click en estrella ${index + 1}")
                 seleccionarEstrellas(index + 1)
             }
         }
+
+// ✅ AGREGAR ESTE LOG
+        Log.d("RecetaDetalle", "🎯 ${estrellas.size} estrellas configuradas correctamente")
 
         // ✅ Botón enviar calificación
         btnEnviarCalificacion.setOnClickListener {
@@ -210,36 +214,55 @@ class RecetaDetalleBottomSheet : BottomSheetDialogFragment() {
         } else {
             btnVerQr.visibility = View.VISIBLE
             btnVerQr.setOnClickListener {
-                Toast.makeText(requireContext(), "Ver código QR (próximamente)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Ver código QR (próximamente)", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
     private fun seleccionarEstrellas(cantidad: Int) {
+        Log.d("RecetaDetalle", "⭐⭐⭐ seleccionarEstrellas llamado con cantidad: $cantidad")
         calificacionSeleccionada = cantidad
+        Log.d(
+            "RecetaDetalle",
+            "📊 calificacionSeleccionada actualizada a: $calificacionSeleccionada"
+        )
 
         estrellas.forEachIndexed { index, estrella ->
             if (index < cantidad) {
                 // Estrella llena (azul)
+                Log.d("RecetaDetalle", "🌟 Estrella ${index + 1}: Cambiando a LLENA (azul)")
                 estrella.setImageResource(R.drawable.ic_star_filled)
             } else {
                 // Estrella vacía (gris)
+                Log.d("RecetaDetalle", "⚪ Estrella ${index + 1}: Cambiando a VACÍA (gris)")
                 estrella.setImageResource(R.drawable.ic_star_empty)
             }
         }
+
+        Log.d("RecetaDetalle", "✅ Todas las estrellas actualizadas. Total seleccionadas: $cantidad")
     }
 
     private fun enviarCalificacion(medicoId: String, comentario: String) {
         if (calificacionSeleccionada == 0) {
-            Toast.makeText(requireContext(), "Por favor selecciona una calificación", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Por favor selecciona una calificación",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
-        val prefs = requireContext().getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE)
+        val prefs =
+            requireContext().getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE)
         val pacienteId = prefs.getString("user_id", null)
 
         if (pacienteId == null) {
-            Toast.makeText(requireContext(), "Error: No se encontró el ID del usuario", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Error: No se encontró el ID del usuario",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
@@ -248,7 +271,10 @@ class RecetaDetalleBottomSheet : BottomSheetDialogFragment() {
         Log.d("RecetaDetalle", "👨‍⚕️ Médico ID: $medicoId")
         Log.d("RecetaDetalle", "🧑 Paciente ID: $pacienteId")
         Log.d("RecetaDetalle", "💬 Comentario: $comentario")
-        Log.d("RecetaDetalle", "📤 Enviando calificación: $calificacionSeleccionada estrellas al médico $medicoId")
+        Log.d(
+            "RecetaDetalle",
+            "📤 Enviando calificación: $calificacionSeleccionada estrellas al médico $medicoId"
+        )
 
         val request = CalificacionRequest(
             medicoId = medicoId,
@@ -257,31 +283,55 @@ class RecetaDetalleBottomSheet : BottomSheetDialogFragment() {
             comentario = if (comentario.isBlank()) null else comentario
         )
 
-        RetrofitClient.calificacionesApiService.calificarMedico(request).enqueue(object : Callback<CalificacionResponse> {
-            override fun onResponse(call: Call<CalificacionResponse>, response: Response<CalificacionResponse>) {
-                if (response.isSuccessful && response.body()?.success == true) {
-                    Log.d("RecetaDetalle", "✅ Calificación enviada exitosamente")
-                    Toast.makeText(requireContext(), "¡Gracias por tu calificación!", Toast.LENGTH_LONG).show()
-                    dismiss()
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    Log.e("RecetaDetalle", "❌ Error en respuesta: ${response.code()}, Body: $errorBody")
-
-                    // Mostrar mensaje específico si ya calificó antes
-                    if (response.code() == 400 && errorBody?.contains("Ya has calificado") == true) {
-                        Toast.makeText(requireContext(), "Ya has calificado a este médico anteriormente", Toast.LENGTH_LONG).show()
+        RetrofitClient.calificacionesApiService.calificarMedico(request)
+            .enqueue(object : Callback<CalificacionResponse> {
+                override fun onResponse(
+                    call: Call<CalificacionResponse>,
+                    response: Response<CalificacionResponse>
+                ) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        Log.d("RecetaDetalle", "✅ Calificación enviada exitosamente")
+                        Toast.makeText(
+                            requireContext(),
+                            "¡Gracias por tu calificación!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        dismiss()
                     } else {
-                        Toast.makeText(requireContext(), "Error al enviar calificación", Toast.LENGTH_SHORT).show()
+                        val errorBody = response.errorBody()?.string()
+                        Log.e(
+                            "RecetaDetalle",
+                            "❌ Error en respuesta: ${response.code()}, Body: $errorBody"
+                        )
+
+                        // Mostrar mensaje específico si ya calificó antes
+                        if (response.code() == 400 && errorBody?.contains("Ya has calificado") == true) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Ya has calificado a este médico anteriormente",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Error al enviar calificación",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<CalificacionResponse>, t: Throwable) {
-                Log.e("RecetaDetalle", "❌ Error de red: ${t.message}", t)
-                Toast.makeText(requireContext(), "Error de conexión: ${t.message}", Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onFailure(call: Call<CalificacionResponse>, t: Throwable) {
+                    Log.e("RecetaDetalle", "❌ Error de red: ${t.message}", t)
+                    Toast.makeText(
+                        requireContext(),
+                        "Error de conexión: ${t.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
+
     private fun llenarMedicamentos(container: LinearLayout, medicamentos: List<Medicamento>) {
         container.removeAllViews()
 
@@ -342,10 +392,15 @@ class RecetaDetalleBottomSheet : BottomSheetDialogFragment() {
             val pdfFile = PdfGenerator.generarRecetaPDF(requireContext(), receta)
 
             if (pdfFile != null) {
-                Toast.makeText(requireContext(), "PDF generado en Descargas/SmartFlow", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "PDF generado en Descargas/SmartFlow",
+                    Toast.LENGTH_LONG
+                ).show()
                 PdfGenerator.abrirPDF(requireContext(), pdfFile)
             } else {
-                Toast.makeText(requireContext(), "Error al generar el PDF", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error al generar el PDF", Toast.LENGTH_SHORT)
+                    .show()
             }
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()

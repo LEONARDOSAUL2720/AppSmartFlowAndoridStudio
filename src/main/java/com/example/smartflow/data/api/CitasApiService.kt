@@ -4,6 +4,7 @@ import com.example.smartflow.data.models.CambiosCitasResponse
 import com.example.smartflow.data.models.CitasResponse
 import com.example.smartflow.data.models.CitasHoyResponse
 import com.example.smartflow.data.models.CrearCitaResponse
+import com.example.smartflow.data.models.EstadisticasResponse
 import com.example.smartflow.data.models.RequestCrearCita
 import retrofit2.Call
 import retrofit2.http.Body
@@ -40,4 +41,9 @@ interface CitasApiService {
         @Path("userId") userId: String,
         @Query("ultimaActualizacion") ultimaActualizacion: Long
     ): Call<CambiosCitasResponse>
+
+    @GET("citas/paciente/{pacienteId}/estadisticas")
+    fun getEstadisticasPaciente(
+        @Path("pacienteId") pacienteId: String
+    ): Call<EstadisticasResponse>
 }

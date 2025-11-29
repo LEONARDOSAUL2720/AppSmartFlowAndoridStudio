@@ -2,6 +2,7 @@ package com.example.smartflow
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,11 +10,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.smartflow.data.api.RetrofitClient
+import com.example.smartflow.data.models.EstadisticasResponse
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PacientePerfilActivity : AppCompatActivity() {
 
@@ -23,6 +29,12 @@ class PacientePerfilActivity : AppCompatActivity() {
     private lateinit var tvUserEmail: TextView
     private lateinit var tvUserTelefono: TextView
     private lateinit var tvTotalCitas: TextView
+
+    // ✅ NUEVAS VARIABLES PARA ESTADÍSTICAS
+    private lateinit var tvStatsCitas: TextView
+    private lateinit var tvStatsMiembro: TextView
+    private lateinit var tvStatsActivo: TextView
+
     private lateinit var btnBack: ImageButton
     private lateinit var btnShare: ImageButton
     private lateinit var btnEditarPerfil: MaterialButton
@@ -51,6 +63,12 @@ class PacientePerfilActivity : AppCompatActivity() {
         tvUserEmail = findViewById(R.id.tv_user_email)
         tvUserTelefono = findViewById(R.id.tv_user_telefono)
         tvTotalCitas = findViewById(R.id.tv_total_citas)
+
+        // ✅ INICIALIZAR NUEVAS VISTAS DE ESTADÍSTICAS
+        tvStatsCitas = findViewById(R.id.tv_stats_citas)
+        tvStatsMiembro = findViewById(R.id.tv_stats_miembro)
+        tvStatsActivo = findViewById(R.id.tv_stats_activo)
+
         btnBack = findViewById(R.id.btn_back)
         btnShare = findViewById(R.id.btn_share)
         btnEditarPerfil = findViewById(R.id.btn_editar_perfil)
@@ -69,6 +87,9 @@ class PacientePerfilActivity : AppCompatActivity() {
 
         // Cargar datos del usuario logueado
         cargarDatosUsuario()
+
+        // ✅ CARGAR ESTADÍSTICAS
+        cargarEstadisticas()
 
         // Ver citas
         btnVerCitas.setOnClickListener {
@@ -101,9 +122,6 @@ class PacientePerfilActivity : AppCompatActivity() {
         tvUserEmail.text = email
         tvUserTelefono.text = telefono
 
-        // TODO: Cargar número real de citas desde el backend
-        tvTotalCitas.text = "0 citas agendadas"
-
         // Cargar foto
         if (!foto.isNullOrEmpty()) {
             ivUserPhoto.load(foto) {
@@ -114,6 +132,58 @@ class PacientePerfilActivity : AppCompatActivity() {
             }
         }
     }
+
+    // ✅ NUEVA FUNCIÓN PARA CARGAR ESTADÍSTICAS
+    private fun cargarEstadisticas() {
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val userId = prefs.getString("user_id", null)
+
+        if (userId.isNullOrEmpty()) {
+            Log.e("PacientePerfil", "No se encontró el userId")
+            return
+        }
+
+        Log.d("PacientePerfil", "Cargando estadísticas para userId: $userId")
+
+        RetrofitClient.citasApiService.getEstadisticasPaciente(userId).enqueue(object : Callback<EstadisticasResponse> {
+            override fun onResponse(
+                call: Call<EstadisticasResponse>,
+                response: Response<EstadisticasResponse>
+            ) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val stats = response.body()?.data
+                    stats?.let {
+                        Log.d("PacientePerfil", "Estadísticas recibidas: $it")
+
+                        // ✅ Actualizar estadísticas en la UI
+                        tvStatsCitas.text = it.citasCompletadas.toString()
+                        tvStatsMiembro.text = it.miembroDesde.toString()
+                        tvStatsActivo.text = it.estadoActivo
+
+                        // ✅ Actualizar el total de citas agendadas
+                        tvTotalCitas.text = "${it.totalCitas} citas agendadas"
+                    }
+                } else {
+                    Log.e("PacientePerfil", "Error en respuesta: ${response.code()} - ${response.message()}")
+                    Toast.makeText(
+                        this@PacientePerfilActivity,
+                        "Error al cargar estadísticas",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<EstadisticasResponse>, t: Throwable) {
+                Log.e("PacientePerfil", "Error de red al cargar estadísticas: ${t.message}", t)
+                Toast.makeText(
+                    this@PacientePerfilActivity,
+                    "Error de conexión",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
     private fun compartirPerfil() {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val nombre = prefs.getString("user_nombre", "Usuario") ?: "Usuario"
