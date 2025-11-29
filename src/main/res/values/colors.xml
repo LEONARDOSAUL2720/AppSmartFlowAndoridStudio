@@ -6,6 +6,7 @@
     <color name="colorSecondaryVariant">#3D9577</color>
     <color name="colorBackground">#F4F7F9</color>
     <color name="textPrimary">#333333</color>
+    <color name="textSecondary">#666666</color>
     <color name="colorAccent">#00A9B7</color>
 
     <!-- básicas -->
@@ -18,4 +19,7 @@
     <color name="colorPrimaryLight">#E3F2FD</color>
     <color name="primary_blue">#2A6FB0</color>
     <color name="turquoise">#00A9B7</color>
+
+    <!-- Color para fondo de sección de horarios -->
+    <color name="horarios_background">#607D8B</color>
 </resources>

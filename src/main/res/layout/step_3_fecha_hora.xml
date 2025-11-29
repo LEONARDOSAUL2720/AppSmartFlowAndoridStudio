@@ -1,175 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/colorBackground">
 
+    <!-- Header con gradiente turquesa -->
     <LinearLayout
+        android:id="@+id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:background="@drawable/gradient_calendar_header"
+        android:padding="20dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Card Principal con Header Turquesa -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- Avatar circular + Info del médico -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="8dp"
-            android:layout_marginBottom="24dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_doctor_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_user_placeholder" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
                 android:orientation="vertical">
 
-                <!-- Header Turquesa -->
+                <TextView
+                    android:id="@+id/tv_medico_seleccionado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dr. Juan Pérez"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/tv_especialidad_medico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cardiología"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:alpha="0.9"
+                    android:layout_marginTop="2dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reserva tu Cita"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+    <!-- ScrollView para el contenido -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Card del Calendario -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="12dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="16dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/gradient_calendar_header"
-                    android:padding="20dp">
+                    android:background="@android:color/white">
 
-                    <!-- Foto del médico y nombre -->
+                    <!-- CalendarView -->
+                    <CalendarView
+                        android:id="@+id/calendar_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:dateTextAppearance="@style/CalendarDateText"
+                        android:weekDayTextAppearance="@style/CalendarWeekText"
+                        android:theme="@style/CalendarTheme" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card de Horarios -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Header de Horarios -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:background="@color/colorPrimary"
+                        android:padding="20dp">
 
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/ic_user_placeholder"
-                            android:background="@drawable/circle_white_bg"
-                            android:padding="2dp" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="12dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tv_medico_seleccionado"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Dr. Juan Pérez"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="@android:color/white"
-                                android:maxLines="2"
-                                android:ellipsize="end" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Cardiología"
-                                android:textSize="14sp"
-                                android:textColor="@android:color/white"
-                                android:alpha="0.9"
-                                android:layout_marginTop="2dp" />
-
-                        </LinearLayout>
+                            android:text="Selecciona un Horario"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white" />
 
                     </LinearLayout>
 
-                    <!-- Título -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Reserva tu Cita"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white"
-                        android:layout_marginTop="16dp" />
-
-                </LinearLayout>
-
-                <!-- Calendario (sin tema personalizado) -->
-                <CalendarView
-                    android:id="@+id/calendar_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:dateTextAppearance="@style/CalendarDateText"
-                    android:weekDayTextAppearance="@style/CalendarWeekText"
-                    android:selectedWeekBackgroundColor="@color/colorAccent"
-                    android:focusedMonthDateColor="@color/textPrimary"
-                    android:unfocusedMonthDateColor="#CCCCCC" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card de Horarios Disponibles -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Header de Horarios (fondo azul oscuro) -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#1E3A5F"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Selecciona un Horario"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white" />
-
-                </LinearLayout>
-
-                <!-- Contenedor de Chips -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp"
-                    android:background="@android:color/white">
-
-                    <!-- Chips de Horarios -->
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chip_group_horarios"
+                    <!-- Contenedor de Horarios -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:singleSelection="true"
-                        app:chipSpacingHorizontal="12dp"
-                        app:chipSpacingVertical="12dp" />
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:minHeight="120dp"
+                        android:background="#455A64">
 
-                    <!-- Mensaje cuando no hay horarios -->
-                    <TextView
-                        android:id="@+id/tv_no_horarios"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No hay horarios disponibles para esta fecha"
-                        android:textSize="16sp"
-                        android:textColor="@color/textPrimary"
-                        android:alpha="0.5"
-                        android:visibility="gone"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="24dp" />
+                        <!-- Estado de carga -->
+                        <LinearLayout
+                            android:id="@+id/layout_cargando"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="24dp"
+                            android:visibility="gone">
+
+                            <ProgressBar
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:indeterminateTint="@color/colorAccent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cargando horarios..."
+                                android:textSize="14sp"
+                                android:textColor="@android:color/white"
+                                android:alpha="0.7"
+                                android:layout_marginTop="12dp" />
+
+                        </LinearLayout>
+
+                        <!-- Chips de Horarios -->
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_group_horarios"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:singleSelection="true"
+                            app:chipSpacingHorizontal="12dp"
+                            app:chipSpacingVertical="12dp"
+                            android:visibility="gone" />
+
+                        <!-- Mensaje cuando no hay horarios -->
+                        <TextView
+                            android:id="@+id/tv_no_horarios"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Selecciona una fecha para ver horarios disponibles"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/white"
+                            android:alpha="0.6"
+                            android:visibility="visible"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="24dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

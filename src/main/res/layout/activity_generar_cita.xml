@@ -8,21 +8,29 @@
     android:layout_marginTop="35dp"
     android:background="@color/colorBackground">
 
-    <!-- Toolbar con título y botón atrás -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!-- Toolbar con esquinas redondeadas usando CardView -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/toolbar_card"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        app:title="Nueva Cita"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_arrow_back"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Indicador de progreso (Steps) -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:title="Nueva Cita"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_arrow_back" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Indicador de progreso (Steps) MEJORADO -->
     <LinearLayout
         android:id="@+id/ll_steps_indicator"
         android:layout_width="match_parent"
@@ -30,7 +38,7 @@
         android:orientation="horizontal"
         android:padding="15dp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -42,11 +50,36 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <View
-                android:id="@+id/step_1_circle"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/circle_step_active" />
+            <!-- Contenedor para círculo con línea centrada -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+
+                <!-- Línea izquierda (invisible para el primero) -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:background="@color/colorSecondaryVariant"
+                    android:visibility="invisible" />
+
+                <!-- Círculo centrado -->
+                <View
+                    android:id="@+id/step_1_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_step_active" />
+
+                <!-- Línea derecha -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/colorSecondaryVariant" />
+
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,14 +90,6 @@
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/line_1_2"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="@color/colorSecondaryVariant"
-            android:layout_marginTop="-20dp" />
-
         <!-- Step 2 -->
         <LinearLayout
             android:layout_width="0dp"
@@ -73,11 +98,35 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <View
-                android:id="@+id/step_2_circle"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/circle_step_inactive" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+
+                <!-- Línea izquierda -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorSecondaryVariant" />
+
+                <!-- Círculo centrado -->
+                <View
+                    android:id="@+id/step_2_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_step_inactive" />
+
+                <!-- Línea derecha -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/colorSecondaryVariant" />
+
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,14 +137,6 @@
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/line_2_3"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="@color/colorSecondaryVariant"
-            android:layout_marginTop="-20dp" />
-
         <!-- Step 3 -->
         <LinearLayout
             android:layout_width="0dp"
@@ -104,11 +145,35 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <View
-                android:id="@+id/step_3_circle"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/circle_step_inactive" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+
+                <!-- Línea izquierda -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorSecondaryVariant" />
+
+                <!-- Círculo centrado -->
+                <View
+                    android:id="@+id/step_3_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_step_inactive" />
+
+                <!-- Línea derecha -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/colorSecondaryVariant" />
+
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,15 +184,6 @@
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/line_3_4"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="@color/colorSecondaryVariant"
-            android:layout_marginTop="-20dp" />
-
-
         <!-- Step 4 -->
         <LinearLayout
             android:layout_width="0dp"
@@ -135,11 +191,37 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center">
-            <View
-                android:id="@+id/step_4_circle"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/circle_step_inactive" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+
+                <!-- Línea izquierda -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/colorSecondaryVariant" />
+
+                <!-- Círculo centrado -->
+                <View
+                    android:id="@+id/step_4_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_step_inactive" />
+
+                <!-- Línea derecha (invisible para el último) -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@color/colorSecondaryVariant"
+                    android:visibility="invisible" />
+
+            </FrameLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

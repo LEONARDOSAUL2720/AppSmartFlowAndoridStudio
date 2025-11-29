@@ -43,11 +43,18 @@
     </style>
 
 
-    <!-- Estilo para el CalendarView -->
+    <!-- Estilo para el CalendarView
     <style name="CalendarTheme" parent="Theme.MaterialComponents.DayNight">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:datePickerStyle">@style/DatePickerStyle</item>
+    </style>
+    -->
+
+    <style name="CalendarTheme" parent="Theme.Material3.Light">
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="DatePickerStyle" parent="android:Widget.Material.DatePicker">
@@ -84,5 +91,41 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="cornerRadius">24dp</item>
     </style>
+
+    <style name="CalendarHeaderText" parent="android:TextAppearance.DeviceDefault.Medium">
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+
+    <!-- Tema personalizado para MaterialDatePicker -->
+    <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.Material3.MaterialCalendar">
+        <!-- Color de fondo del calendario -->
+        <item name="colorSurface">@android:color/white</item>
+
+        <!-- Color del día seleccionado -->
+        <item name="colorPrimary">@color/colorAccent</item>
+
+        <!-- Color del texto de días -->
+        <item name="colorOnSurface">@color/textPrimary</item>
+
+        <!-- Color de los botones -->
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Color del header -->
+        <item name="colorOnPrimarySurface">@color/colorPrimary</item>
+    </style>
+
+
+    <style name="ToolbarBottomRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+        <item name="cornerSizeBottomRight">16dp</item>
+    </style>
+
 
 </resources>

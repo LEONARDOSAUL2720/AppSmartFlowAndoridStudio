@@ -14,8 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/header_rounded_bottom"
         android:padding="16dp"
+        android:paddingBottom="24dp"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +84,6 @@
             android:contentDescription="Cerrar sesión" />
 
     </LinearLayout>
-
     <!-- Contenido principal con scroll vertical -->
     <ScrollView
         android:id="@+id/fragment_container"
