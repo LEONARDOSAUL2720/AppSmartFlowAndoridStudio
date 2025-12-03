@@ -29,6 +29,16 @@ import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import android.util.Base64
+import android.graphics.BitmapFactory
+import coil.Coil
+import coil.request.ImageRequest
 
 class PacienteHomeActivity : AppCompatActivity() {
 
@@ -71,7 +81,8 @@ class PacienteHomeActivity : AppCompatActivity() {
             .build()
         googleClient = GoogleSignIn.getClient(this, gso)
 
-        val tvWelcome = findViewById<TextView>(R.id.tv_welcome)
+        // ✅ INICIALIZAR VISTAS PRIMERO
+
         val ivUserPhoto = findViewById<ImageView>(R.id.iv_user_photo)
         val btnNotifications = findViewById<ImageButton>(R.id.btn_notifications)
         val btnLogoutHeader = findViewById<ImageButton>(R.id.btn_logout_header)
@@ -97,14 +108,13 @@ class PacienteHomeActivity : AppCompatActivity() {
             adapter = citasAdapter
         }
 
-        // ✅ NUEVO: Configurar RecyclerView de Turnos Disponibles HOY
+        // Configurar RecyclerView de Turnos Disponibles HOY
         turnosDisponiblesAdapter = TurnosDisponiblesAdapter(emptyList()) { medicoId, medicoNombre, especialidad, hora ->
             Toast.makeText(
                 this,
                 "Turno seleccionado:\n$hora\nMédico: $medicoNombre\nEspecialidad: $especialidad",
                 Toast.LENGTH_LONG
             ).show()
-            // TODO: Implementar lógica para tomar el turno
         }
         rvTurnos.apply {
             layoutManager = LinearLayoutManager(this@PacienteHomeActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -121,23 +131,8 @@ class PacienteHomeActivity : AppCompatActivity() {
         // Deshabilitar tint en los iconos
         bottomNavigation.itemIconTintList = null
 
-        // Obtener datos del usuario
-        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val userNombre = prefs.getString("user_nombre", "Paciente")
-        val userId = prefs.getString("user_id", null)
-        val userFoto = prefs.getString("user_foto", null)
-
-        tvWelcome.text = userNombre ?: "Paciente"
-
-        // Cargar foto de perfil
-        if (!userFoto.isNullOrEmpty()) {
-            ivUserPhoto.load(userFoto) {
-                crossfade(true)
-                placeholder(R.drawable.ic_launcher_foreground)
-                error(R.drawable.ic_launcher_foreground)
-                transformations(CircleCropTransformation())
-            }
-        }
+        // ✅ CARGAR DATOS DEL USUARIO CORRECTAMENTE
+        cargarDatosUsuario()
 
         // Click en notificaciones
         btnNotifications.setOnClickListener {
@@ -148,9 +143,12 @@ class PacienteHomeActivity : AppCompatActivity() {
         cargarEspecialidades()
 
         // Cargar datos iniciales
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val userId = prefs.getString("user_id", null)
+
         if (userId != null) {
             cargarCitasProximas(userId)
-            cargarTurnosDisponiblesHoy()  // ✅ CAMBIADO
+            cargarTurnosDisponiblesHoy()
             cargarFilaVirtualHoy()
         } else {
             Toast.makeText(this, "Error: No se encontró el ID del usuario", Toast.LENGTH_SHORT).show()
@@ -209,9 +207,84 @@ class PacienteHomeActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ POLLING: Iniciar actualización inteligente
+    private fun cargarDatosUsuario() {
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+
+        val nombre = prefs.getString("user_nombre", "Paciente") ?: "Paciente"
+        val apellido = prefs.getString("user_apellido", "") ?: ""
+        val foto = prefs.getString("user_foto", null)
+
+        Log.d("PacienteHome", "📋 Datos cargados:")
+        Log.d("PacienteHome", "  - Nombre: '$nombre'")
+        Log.d("PacienteHome", "  - Apellido: '$apellido'")
+        Log.d("PacienteHome", "  - Foto: ${foto?.take(100)}")
+
+        // ✅ Actualizar el nombre en el header
+        val tvWelcome = findViewById<TextView>(R.id.tv_welcome)
+        tvWelcome.text = nombre  // Solo el nombre
+
+        // ✅ Actualizar la foto
+        val ivUserPhoto = findViewById<ImageView>(R.id.iv_user_photo)
+
+        if (!foto.isNullOrEmpty()) {
+            when {
+                // ✅ CASO 1: URL de Google (http/https)
+                foto.startsWith("http") -> {
+                    Log.d("PacienteHome", "Cargando URL de Google...")
+                    ivUserPhoto.load(foto) {
+                        crossfade(true)
+                        placeholder(R.drawable.ic_launcher_foreground)
+                        error(R.drawable.ic_launcher_foreground)
+                        transformations(CircleCropTransformation())
+                    }
+                }
+
+                // ✅ CASO 2: Base64 con prefijo "data:image"
+                foto.startsWith("data:image") -> {
+                    Log.d("PacienteHome", "Cargando Base64 con prefijo...")
+                    try {
+                        // Extraer solo la parte Base64
+                        val base64String = foto.substringAfter("base64,")
+                        val imageBytes = Base64.decode(base64String, Base64.DEFAULT)
+                        val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                        val circularBitmap = getCircularBitmap(bitmap)
+                        ivUserPhoto.setImageBitmap(circularBitmap)
+                        Log.d("PacienteHome", "✅ Foto Base64 cargada correctamente")
+                    } catch (e: Exception) {
+                        Log.e("PacienteHome", "❌ Error decodificando Base64: ${e.message}")
+                        ivUserPhoto.setImageResource(R.drawable.ic_launcher_foreground)
+                    }
+                }
+
+                // ✅ CASO 3: Base64 puro (sin prefijo)
+                else -> {
+                    Log.d("PacienteHome", "Cargando Base64 puro...")
+                    try {
+                        val imageBytes = Base64.decode(foto, Base64.DEFAULT)
+                        val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                        val circularBitmap = getCircularBitmap(bitmap)
+                        ivUserPhoto.setImageBitmap(circularBitmap)
+                        Log.d("PacienteHome", "✅ Foto Base64 pura cargada correctamente")
+                    } catch (e: Exception) {
+                        Log.e("PacienteHome", "❌ Error decodificando Base64 puro: ${e.message}")
+                        ivUserPhoto.setImageResource(R.drawable.ic_launcher_foreground)
+                    }
+                }
+            }
+        } else {
+            Log.d("PacienteHome", "No hay foto guardada")
+            ivUserPhoto.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+    }
+
+    // ✅ CORRECTO - onResume() con recarga de datos de usuario
     override fun onResume() {
         super.onResume()
+
+        Log.d("PacienteHome", "onResume() - Recargando datos")
+
+        // ✅ AGREGAR ESTA LÍNEA - Recargar datos del usuario (nombre + foto)
+        cargarDatosUsuario()
 
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val userId = prefs.getString("user_id", null)
@@ -595,5 +668,23 @@ class PacienteHomeActivity : AppCompatActivity() {
             rvFilaVirtual.visibility = View.GONE
             tvNoFila.visibility = View.VISIBLE
         }
+    }
+
+    private fun getCircularBitmap(bitmap: Bitmap): Bitmap {
+        val size = Math.min(bitmap.width, bitmap.height)
+        val output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+
+        val canvas = Canvas(output)
+        val paint = Paint()
+        val rect = Rect(0, 0, size, size)
+
+        paint.isAntiAlias = true
+        canvas.drawARGB(0, 0, 0, 0)
+        canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, null, rect, paint)
+
+        return output
     }
 }

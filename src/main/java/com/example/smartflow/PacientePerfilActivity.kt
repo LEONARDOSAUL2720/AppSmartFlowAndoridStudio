@@ -91,14 +91,17 @@ class PacientePerfilActivity : AppCompatActivity() {
         // ✅ CARGAR ESTADÍSTICAS
         cargarEstadisticas()
 
+
         // Ver citas
         btnVerCitas.setOnClickListener {
-            Toast.makeText(this, "Ver citas próximamente", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, RecetasHistorialActivity::class.java)
+            startActivity(intent)
         }
 
-        // Editar perfil
+        // DESPUÉS:
         btnEditarPerfil.setOnClickListener {
-            Toast.makeText(this, "Editar perfil próximamente", Toast.LENGTH_SHORT).show()
+            val bottomSheet = EditarPerfilBottomSheet.newInstance()
+            bottomSheet.show(supportFragmentManager, EditarPerfilBottomSheet.TAG)
         }
 
         // Cerrar sesión
@@ -107,32 +110,58 @@ class PacientePerfilActivity : AppCompatActivity() {
         }
     }
 
-    private fun cargarDatosUsuario() {
+     fun cargarDatosUsuario() {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
 
         val nombre = prefs.getString("user_nombre", "Usuario") ?: "Usuario"
+        val apellido = prefs.getString("user_apellido", "") ?: ""
         val email = prefs.getString("user_email", "email@ejemplo.com") ?: "email@ejemplo.com"
         val telefono = prefs.getString("user_telefono", "Sin teléfono") ?: "Sin teléfono"
         val foto = prefs.getString("user_foto", null)
         val rol = prefs.getString("user_rol", "paciente") ?: "paciente"
 
+         Log.d("PacientePerfil", "Cargando foto: ${foto?.take(100) ?: "Sin foto"}...")
+
+        val nombreCompleto = if (apellido.isEmpty()) {
+            nombre
+        } else {
+            "$nombre $apellido"
+        }
+
         // Mostrar datos
-        tvUserNombre.text = nombre
+        tvUserNombre.text = nombreCompleto  // ✅ Ahora muestra "Leonardo Saul Avila Sánchez"
         tvUserRol.text = rol.replaceFirstChar { it.uppercase() }
         tvUserEmail.text = email
         tvUserTelefono.text = telefono
 
-        // Cargar foto
-        if (!foto.isNullOrEmpty()) {
-            ivUserPhoto.load(foto) {
-                crossfade(true)
-                placeholder(R.drawable.ic_launcher_foreground)
-                error(R.drawable.ic_launcher_foreground)
-                transformations(CircleCropTransformation())
-            }
-        }
-    }
+         if (!foto.isNullOrEmpty()) {
+             Log.d("PacientePerfil", "Cargando foto: ${foto.take(50)}...")
 
+             // Si es Base64, convertir a Bitmap primero
+             if (foto.startsWith("data:image")) {
+                 try {
+                     // Extraer solo la parte Base64
+                     val base64String = foto.substringAfter("base64,")
+                     val decodedBytes = android.util.Base64.decode(base64String, android.util.Base64.DEFAULT)
+                     val bitmap = android.graphics.BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+
+                     ivUserPhoto.setImageBitmap(bitmap)
+                     Log.d("PacientePerfil", "✅ Foto Base64 cargada correctamente")
+                 } catch (e: Exception) {
+                     Log.e("PacientePerfil", "❌ Error cargando Base64: ${e.message}")
+                     ivUserPhoto.setImageResource(R.drawable.ic_user_placeholder)
+                 }
+             } else {
+                 // Si es URL normal, usar Coil
+                 ivUserPhoto.load(foto) {
+                     crossfade(true)
+                     placeholder(R.drawable.ic_user_placeholder)
+                     error(R.drawable.ic_user_placeholder)
+                     transformations(CircleCropTransformation())
+                 }
+             }
+         }
+    }
     // ✅ NUEVA FUNCIÓN PARA CARGAR ESTADÍSTICAS
     private fun cargarEstadisticas() {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)

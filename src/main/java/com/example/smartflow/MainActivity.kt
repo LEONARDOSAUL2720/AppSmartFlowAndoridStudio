@@ -223,6 +223,16 @@ class MainActivity : AppCompatActivity() {
                     if (success) {
                         val token = json.getString("token")
                         val user = json.getJSONObject("user")
+
+                        // ✅ AGREGAR ESTOS LOGS PARA DEBUGGING
+                        Log.d("MainActivity", "📦 RAW JSON RESPONSE: $response")
+                        Log.d("MainActivity", "👤 USER OBJECT: $user")
+                        Log.d("MainActivity", "📝 Nombre desde JSON: ${user.optString("nombre", "SIN_NOMBRE")}")
+                        Log.d("MainActivity", "📝 Apellido desde JSON: ${user.optString("apellido", "SIN_APELLIDO")}")
+                        Log.d("MainActivity", "📧 Email desde JSON: ${user.optString("email", "SIN_EMAIL")}")
+
+
+
                         val userId = user.getString("id")
                         val rol = user.getString("rol")
                         val nombre = user.optString("nombre", "Usuario")
@@ -476,22 +486,39 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "Token guardado")
     }
 
-    // Guardar datos del usuario (ID, nombre, email, teléfono, rol y foto)
     private fun saveUserData(userId: String, nombre: String, foto: String?, user: JSONObject) {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        // ✅ EXTRAER VALORES PRIMERO PARA VER QUÉ SE ESTÁ GUARDANDO
+        val nombreGuardado = user.optString("nombre", "")
+        val apellidoGuardado = user.optString("apellido", "")
+        val emailGuardado = user.optString("email", "")
+        val telefonoGuardado = user.optString("telefono", "")
+        val rolGuardado = user.optString("rol", "paciente")
+
+        Log.d("MainActivity", "💾 GUARDANDO EN SHAREDPREFS:")
+        Log.d("MainActivity", "  - user_nombre: '$nombreGuardado'")
+        Log.d("MainActivity", "  - user_apellido: '$apellidoGuardado'")
+        Log.d("MainActivity", "  - user_email: '$emailGuardado'")
+        Log.d("MainActivity", "  - user_telefono: '$telefonoGuardado'")
+        Log.d("MainActivity", "  - user_rol: '$rolGuardado'")
+        Log.d("MainActivity", "  - user_foto: '$foto'")
+
+
         prefs.edit().apply {
             putString("user_id", userId)
-            putString("user_nombre", nombre)
-            putString("user_email", user.optString("email", ""))
-            putString("user_telefono", user.optString("telefono", ""))
-            putString("user_rol", user.optString("rol", "paciente"))
+            putString("user_nombre", nombreGuardado)
+            putString("user_apellido", apellidoGuardado)
+            putString("user_email", emailGuardado)
+            putString("user_telefono", telefonoGuardado)
+            putString("user_rol", rolGuardado)
             putString("user_fecha_registro", user.optString("fechaRegistro", ""))
             if (foto != null) {
                 putString("user_foto", foto)
             }
             apply()
         }
-        Log.d("MainActivity", "Datos de usuario guardados: ID=$userId, nombre=$nombre, email=${user.optString("email")}")
+
+        Log.d("MainActivity", "Datos de usuario guardados: ID=$userId, nombre=${user.optString("nombre")}, apellido=${user.optString("apellido")}, email=${user.optString("email")}")
     }
 
     // Navegar según rol del usuario

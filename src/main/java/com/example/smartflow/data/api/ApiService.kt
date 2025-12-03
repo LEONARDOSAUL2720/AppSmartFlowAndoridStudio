@@ -1,6 +1,7 @@
 package com.example.smartflow.data.api
 
 import com.example.smartflow.data.models.*
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -49,4 +50,11 @@ interface ApiService {
     
     @GET("especialidades")
     suspend fun getEspecialidades(): Response<ApiResponse<List<Any>>>
+
+
+    @PUT("auth/profile")
+    fun actualizarPerfil(
+        @Header("Authorization") token: String,
+        @Body datos: ActualizarPerfilRequest
+    ): Call<ActualizarPerfilResponse>
 }

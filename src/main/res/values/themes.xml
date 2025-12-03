@@ -127,5 +127,22 @@
         <item name="cornerSizeBottomRight">16dp</item>
     </style>
 
+    <!-- Estilo para Bottom Sheet -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- Estilo para TextInputLayout del Bottom Sheet -->
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/textSecondary</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
 
 </resources>
